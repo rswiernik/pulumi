@@ -85,6 +85,7 @@ class ProjectSettings:
     website: Optional[str] = None
     license: Optional[str] = None
     config: Optional[str] = None
+    stackConfigDir: Optional[str] = None
     template: Optional[ProjectTemplate] = None
     backend: Optional[ProjectBackend] = None
 
@@ -98,6 +99,7 @@ class ProjectSettings:
         website: Optional[str] = None,
         license: Optional[str] = None,  # pylint: disable=redefined-builtin
         config: Optional[str] = None,
+        stackConfigDir: Optional[str] = None,
         template: Optional[ProjectTemplate] = None,
         backend: Optional[ProjectBackend] = None,
     ):
@@ -111,6 +113,12 @@ class ProjectSettings:
                 f"Invalid value {runtime!r} for runtime. "
                 f"Must be one of: 'nodejs', 'python', 'go', 'dotnet'."
             )
+
+        if config and stackConfigDir:
+            raise ValueError(
+                "Can not set `config` and `stackConfigDir`, remove the `config` entry"
+            )
+
         self.name = name
         self.runtime = runtime
         self.main = main
@@ -119,5 +127,6 @@ class ProjectSettings:
         self.website = website
         self.license = license
         self.config = config
+        self.stackConfigDir = stackConfigDir
         self.template = template
         self.backend = backend
